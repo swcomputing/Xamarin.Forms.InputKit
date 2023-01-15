@@ -24,7 +24,7 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
         Color = InputKitOptions.GetAccentColor(),
         BorderColor = Application.Current.PlatformAppTheme == AppTheme.Dark ? Colors.WhiteSmoke : Colors.Black,
         TextColor = (Color)Label.TextColorProperty.DefaultValue,
-        Size = 28,
+        Size = 28, //  TODO: fix for collections, GlobalSetting is not good for size - first item in collection does not respect this in child control override
         CornerRadius = 5,
         FontSize = 14,
         LabelPosition = LabelPosition.After,
