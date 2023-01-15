@@ -537,7 +537,7 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
       await checkBox.outlineBox.ScaleTo(isPressed ? scaleDown : 1, 50, Easing.BounceIn);
 
       // SWC TODO : Add a config prop for this with default to match visual curvature of orig size.
-      var radiusVal = isPressed ? checkBox.outlineBox.RadiusX * 1f + ( 1 - scaleDown) : checkBox.CornerRadius;
+      var radiusVal = isPressed ? checkBox.outlineBox.RadiusX * ( 1f + ( 1 - scaleDown ) ) : checkBox.CornerRadius;
         checkBox.outlineBox.RadiusX = radiusVal;
     }
     #endregion
