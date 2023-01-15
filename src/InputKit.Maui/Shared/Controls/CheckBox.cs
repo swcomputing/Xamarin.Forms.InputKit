@@ -24,8 +24,8 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
         Color = InputKitOptions.GetAccentColor(),
         BorderColor = Application.Current.PlatformAppTheme == AppTheme.Dark ? Colors.WhiteSmoke : Colors.Black,
         TextColor = (Color)Label.TextColorProperty.DefaultValue,
-        Size = 25,
-        CornerRadius = 2,
+        Size = 28,
+        CornerRadius = 5,
         FontSize = 14,
         LabelPosition = LabelPosition.After,
         LineBreakMode = LineBreakMode.WordWrap
@@ -532,8 +532,12 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
 
     public static async void ApplyIsPressed(CheckBox checkBox, bool isPressed)
     {
-        await checkBox.outlineBox.ScaleTo(isPressed ? .8 : 1, 50, Easing.BounceIn);
-        var radiusVal = isPressed ? checkBox.outlineBox.RadiusX * 2f : checkBox.CornerRadius;
+       double scaleDown = .8; // always 1 or less and >= 0.
+
+      await checkBox.outlineBox.ScaleTo(isPressed ? scaleDown : 1, 50, Easing.BounceIn);
+
+      // SWC TODO : Add a config prop for this with default to match visual curvature of orig size.
+      var radiusVal = isPressed ? checkBox.outlineBox.RadiusX * 1f + ( 1 - scaleDown) : checkBox.CornerRadius;
         checkBox.outlineBox.RadiusX = radiusVal;
     }
     #endregion
