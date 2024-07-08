@@ -318,7 +318,15 @@ public class RadioButton : StatefulStackLayout
             Checked?.Invoke(this, null);
         }
 
-        iconChecked.ScaleTo(isChecked ? DOT_FULL_SCALE : 0, 180);
+        if (this.IsLoaded)
+        {
+            iconChecked.ScaleTo(isChecked ? DOT_FULL_SCALE : 0, 180);
+        }
+        else
+        {
+            iconChecked.Scale = isChecked ? DOT_FULL_SCALE : 0;
+        }
+
         UpdateColors();
 
         var state = isChecked ? VisualStateManager.CommonStates.Selected : VisualStateManager.CommonStates.Normal;

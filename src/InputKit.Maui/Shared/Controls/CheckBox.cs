@@ -479,7 +479,14 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
 
     public static void ApplyIsChecked(CheckBox checkBox, bool isChecked)
     {
-        checkBox.selectedIcon.ScaleTo(isChecked ? CHECK_SIZE_RATIO : 0, 160);
+        if (checkBox.IsLoaded)
+        {
+            checkBox.selectedIcon.ScaleTo(isChecked ? CHECK_SIZE_RATIO : 0, 160);
+        }
+        else
+        {
+            checkBox.selectedIcon.Scale = isChecked ? CHECK_SIZE_RATIO : 0;
+        }
 
         checkBox.UpdateColors();
 
