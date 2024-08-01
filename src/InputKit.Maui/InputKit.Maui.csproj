@@ -24,6 +24,7 @@
     <Copyright>Copyright 2018</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon512.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- NuGet Package Info End-->
 
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -58,6 +59,7 @@
 
   <ItemGroup>
     <None Include="icon512.png" Pack="true" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
