@@ -12,7 +12,7 @@ namespace InputKit.Shared.Controls;
 /// Radio Button with Text
 /// </summary>
 [ContentProperty(nameof(ContentProxy))]
-public class RadioButton : StatefulStackLayout
+public class RadioButton : StatefulGrid
 {
     #region Statics
     /// <summary>
@@ -76,12 +76,12 @@ public class RadioButton : StatefulStackLayout
     /// </summary>
     public RadioButton()
     {
-        Orientation = StackOrientation.Horizontal;
-        Spacing = 10;
+        ColumnSpacing = 10;
 
         ApplyIsCheckedAction = ApplyIsChecked;
         ApplyIsPressedAction = ApplyIsPressed;
         contentHolder.Content = lblText;
+        contentHolder.HorizontalOptions = LayoutOptions.Start;
         IconLayout = new Grid
         {
             VerticalOptions = LayoutOptions.Center,
@@ -263,34 +263,29 @@ public class RadioButton : StatefulStackLayout
     private void ApplyLabelPosition(LabelPosition position)
     {
         Children.Clear();
+
         if (position == LabelPosition.After)
         {
-            lblText.HorizontalOptions = LayoutOptions.Start;
-            Children.Add(IconLayout);
-            Children.Add(contentHolder);
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Star }
+            };
+            Grid.SetColumn(IconLayout, 0);
+            Grid.SetColumn(contentHolder, 1);
         }
         else
         {
-            lblText.HorizontalOptions = LayoutOptions.FillAndExpand;
-            Children.Add(contentHolder);
-            Children.Add(IconLayout);
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto }
+            };
+            Grid.SetColumn(contentHolder, 0);
+            Grid.SetColumn(IconLayout, 1);
         }
-    }
-
-    protected override async void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-
-        // TODO: Remove this logic after resolution of https://github.com/dotnet/maui/issues/8873
-        // This is a workaround.
-
-#if ANDROID
-        await Task.Delay(1);
-#endif
-        if (IconLayout.Width != -1 && lblText.Width > this.Width)
-        {
-            lblText.MaximumWidthRequest = this.Width - this.Spacing - IconLayout.Width;
-        }
+        Children.Add(IconLayout);
+        Children.Add(contentHolder);
     }
 
     private protected virtual void UpdateShape()
@@ -334,7 +329,7 @@ public class RadioButton : StatefulStackLayout
         DefaultVisualState = state;
     }
 
-    public virtual async void ApplyIsPressed(StatefulStackLayout statefulLayout, bool isPressed)
+    public virtual async void ApplyIsPressed(StatefulGrid statefulLayout, bool isPressed)
     {
         if (statefulLayout is RadioButton radioButton)
         {

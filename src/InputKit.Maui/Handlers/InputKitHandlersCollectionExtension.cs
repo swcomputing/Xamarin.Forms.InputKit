@@ -7,6 +7,7 @@ namespace InputKit.Handlers
         public static IMauiHandlersCollection AddInputKitHandlers(this IMauiHandlersCollection collection)
         {
             return collection
+                .AddHandler(typeof(StatefulGrid), typeof(InputKit.Handlers.StatefulGridHandler))
                 .AddHandler(typeof(StatefulStackLayout), typeof(InputKit.Handlers.StatefulStackLayoutHandler));
         }
     }

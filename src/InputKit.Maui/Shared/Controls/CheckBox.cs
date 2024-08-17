@@ -17,7 +17,7 @@ namespace InputKit.Shared.Controls;
 /// A checkbox for boolean inputs. It Includes a text inside
 /// </summary>
 [ContentProperty(nameof(ContentProxy))]
-public partial class CheckBox : StatefulStackLayout, IValidatable
+public partial class CheckBox : StatefulGrid, IValidatable
 {
     public static GlobalSetting GlobalSetting { get; } = new GlobalSetting
     {
@@ -82,11 +82,11 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
     /// </summary>
     public CheckBox()
     {
-        Orientation = StackOrientation.Horizontal;
-        Spacing = 10;
+        ColumnSpacing = 10;
         ApplyIsCheckedAction = ApplyIsChecked;
         ApplyIsPressedAction = ApplyIsPressed;
         contentHolder.Content = lblOption;
+        contentHolder.HorizontalOptions = LayoutOptions.Start;
         IconLayout = new Grid
         {
             MinimumWidthRequest = GlobalSetting.Size,
@@ -380,32 +380,26 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
 
         if (position == LabelPosition.After)
         {
-            lblOption.HorizontalOptions = LayoutOptions.Start;
-            Children.Add(IconLayout);
-            Children.Add(contentHolder);
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Star }
+            };
+            Grid.SetColumn(IconLayout, 0);
+            Grid.SetColumn(contentHolder, 1);
         }
         else
         {
-            lblOption.HorizontalOptions = LayoutOptions.FillAndExpand;
-            Children.Add(contentHolder);
-            Children.Add(IconLayout);
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto }
+            };
+            Grid.SetColumn(contentHolder, 0);
+            Grid.SetColumn(IconLayout, 1);
         }
-    }
-
-    protected override async void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-
-        // TODO: Remove this logic after resolution of https://github.com/dotnet/maui/issues/8873
-        // This is a workaround.
-
-#if ANDROID
-        await Task.Delay(1);
-#endif
-        if (IconLayout.Width != -1 && lblOption.Width > this.Width)
-        {
-            lblOption.MaximumWidthRequest = this.Width - this.Spacing - IconLayout.Width;
-        }
+        Children.Add(IconLayout);
+        Children.Add(contentHolder);
     }
 
     void ExecuteCommand()
@@ -504,7 +498,7 @@ public partial class CheckBox : StatefulStackLayout, IValidatable
         checkBox.DefaultVisualState = state;
     }
 
-    public static async void ApplyIsPressed(StatefulStackLayout statefulLayout, bool isPressed)
+    public static async void ApplyIsPressed(StatefulGrid statefulLayout, bool isPressed)
     {
         if (statefulLayout is CheckBox checkBox)
         {
