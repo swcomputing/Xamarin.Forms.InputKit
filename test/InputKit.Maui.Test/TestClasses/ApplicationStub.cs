@@ -11,9 +11,8 @@ class ApplicationStub : IApplication
 	public IElement Parent { get; set; }
 
 	public IReadOnlyList<IWindow> Windows => _windows.AsReadOnly();
-   public AppTheme UserAppTheme { get; }
 
-   public string Property { get; set; } = "Default";
+	public string Property { get; set; } = "Default";
 
 	public IWindow CreateWindow(IActivationState activationState)
 	{
@@ -30,5 +29,9 @@ class ApplicationStub : IApplication
 		_windows.Remove(window);
 	}
 
-	public void ThemeChanged() { }
+	public AppTheme UserAppTheme { get; }
+
+	public void ThemeChanged()
+	{
+	}
 }
