@@ -29,5 +29,9 @@ class ApplicationStub : IApplication
 		_windows.Remove(window);
 	}
 
-	public void ThemeChanged() { }
+	public AppTheme UserAppTheme { get; }
+
+	public void ThemeChanged()
+	{
+	}
 }

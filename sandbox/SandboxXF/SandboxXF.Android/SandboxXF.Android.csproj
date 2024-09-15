@@ -88,10 +88,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Xamarin.Forms.InputKit\Xamarin.Forms.InputKit.csproj">
-      <Project>{312e32b9-5b5e-4a5f-b060-3ee5ed84e95e}</Project>
-      <Name>Xamarin.Forms.InputKit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SandboxXF\SandboxXF.csproj">
       <Project>{EAB620D9-4836-4FC1-8A7D-6E6DA3FF3143}</Project>
       <Name>SandboxXF</Name>
